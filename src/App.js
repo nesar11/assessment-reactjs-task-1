@@ -1,23 +1,48 @@
 import logo from './logo.svg';
 import './App.css';
+import Axios from 'axios';
+import { useEffect, useState} from 'react';
 
 function App() {
+  const [data, setDate] = useState([])
+
+  useEffect(()=>{
+Axios.get('http://localhost:4000/users')
+.then(res => {
+  console.log("getting from server",res.data)
+  setDate(res.data)
+}).catch(err=> console.log(err))
+  },[])
+const arr = data.map((data)=>{
+  return(
+    <tr>
+    <td>{data._id}</td>
+    <td>{data.userName}</td>
+    <td>{data.email}</td>
+    <td>{data.address}</td>
+    <td>{data.updatedAt }</td>
+  </tr>
+  )
+
+})
+
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      
+      <table>
+  <tr>
+    <th>ID</th>
+    <th>Name</th>
+    <th>Email</th>
+    <th>Address</th>
+    <th>updated</th>
+  </tr>
+{arr}
+  
+</table>
+
+      
     </div>
   );
 }
